@@ -18,7 +18,7 @@ public class Customer extends ContentProvider {
     public static final String PROVIDER_NAME = "com.example.nagasudhir.debtonatorsamples.customer";
 
     /**
-     * A uri to do operations on cust_master table. A content provider is identified by its uri
+     * A uri to do operations on people_details table. A content provider is identified by its uri
      */
     public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/customers");
 
@@ -26,12 +26,14 @@ public class Customer extends ContentProvider {
      * Constants to identify the requested operation
      */
     private static final int CUSTOMERS = 1;
+    private static final int CUSTOMER = 2;
 
     private static final UriMatcher uriMatcher;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME, "customers", CUSTOMERS);
+        uriMatcher.addURI(PROVIDER_NAME, "customers/#", CUSTOMER);
     }
 
     /**
@@ -61,6 +63,8 @@ public class Customer extends ContentProvider {
 
         if (uriMatcher.match(uri) == CUSTOMERS) {
             return mCustomerDB.getAllCustomers();
+        } else if (uriMatcher.match(uri) == CUSTOMER) {
+            return mCustomerDB.getCustomerById(uri.getLastPathSegment());
         } else {
             return null;
         }
@@ -75,7 +79,8 @@ public class Customer extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         // TODO Auto-generated method stub
-        return null;
+        long id = mCustomerDB.insertCustomer(values);
+        return Uri.parse(Customer.CONTENT_URI + "/" + id);
     }
 
     @Override

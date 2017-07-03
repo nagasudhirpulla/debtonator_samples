@@ -139,6 +139,20 @@ public class CustomerDB extends SQLiteOpenHelper {
         return mDB.rawQuery("SELECT id AS _id, * FROM people_details;", null);
     }
 
+    /**
+     * Returns a the customers in the table
+     */
+    public Cursor getCustomerById(String idString) {
+        return mDB.rawQuery("SELECT id AS _id, * FROM people_details WHERE id = ?;", new String[]{idString});
+    }
+
+    /**
+     * Creates a the customers in the table
+     */
+    public long insertCustomer(ContentValues values) {
+        return mDB.insert(DATABASE_TABLE, null, values);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
         // TODO Auto-generated method stub

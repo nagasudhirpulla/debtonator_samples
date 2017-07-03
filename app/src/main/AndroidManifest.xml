@@ -18,10 +18,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PersonViewActivity"
+            android:label="@string/title_activity_person_view"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nagasudhir.debtonatorsamples.HomeActivity" />
+        </activity>
+
         <provider
-            android:name="Customer"
+            android:name=".Customer"
             android:authorities="com.example.nagasudhir.debtonatorsamples.customer"
             android:exported="false" />
+
+        <activity android:name=".PersonEditActivity"></activity>
     </application>
 
 </manifest>

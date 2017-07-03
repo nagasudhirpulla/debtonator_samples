@@ -1,5 +1,6 @@
 package com.example.nagasudhir.debtonatorsamples;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -39,6 +42,10 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                // starts a new Intent to update/delete a Country
+                // pass in row Id to create the Content URI for a single row
+                Intent customerEdit = new Intent(getBaseContext(), PersonEditActivity.class);
+                startActivity(customerEdit);
             }
         });
 
@@ -60,7 +67,31 @@ public class HomeActivity extends AppCompatActivity
                 new int[]{R.id.code, R.id.name, R.id.phone, R.id.email, R.id.metadata, R.id.created_at, R.id.updated_at}, 0);
 
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
+                // Get the cursor, positioned to the corresponding row in the result set
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
+                // display the selected country
+                String customer_id =
+                        cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_USERNAME));
+                Toast.makeText(getApplicationContext(),
+                        customer_id, Toast.LENGTH_SHORT).show();
+
+                String rowId =
+                        cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_ROW_ID));
+
+                // starts a new Intent to update/delete a Country
+                // pass in row Id to create the Content URI for a single row
+                Intent customerView = new Intent(getBaseContext(), PersonViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mode", "update");
+                bundle.putString("rowId", rowId);
+                customerView.putExtras(bundle);
+                startActivity(customerView);
+            }
+        });
         /** Creating a loader for populating listview from sqlite database */
         /** This statement, invokes the method onCreatedLoader() */
         getSupportLoaderManager().initLoader(0, null, this);
