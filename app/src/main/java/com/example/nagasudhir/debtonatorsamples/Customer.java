@@ -72,13 +72,11 @@ public class Customer extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+        return (int) mCustomerDB.deleteCustomer("id=?", selectionArgs);
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO Auto-generated method stub
         long id = mCustomerDB.insertCustomer(values);
         return Uri.parse(Customer.CONTENT_URI + "/" + id);
     }
@@ -87,6 +85,6 @@ public class Customer extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         // TODO Auto-generated method stub
-        return 0;
+        return (int) mCustomerDB.updateCustomer(values, selection, selectionArgs);
     }
 }

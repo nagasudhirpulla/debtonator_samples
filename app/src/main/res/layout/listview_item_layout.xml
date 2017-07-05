@@ -49,7 +49,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Person"
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/updated_at"
-        android:onClick="editPersonWithListBtn"/>
+        android:drawableLeft="@android:drawable/ic_menu_edit"
+        android:focusable="false"
+        android:onClick="editPersonWithListBtn"
+        android:text="Edit" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/updated_at"
+        android:drawableLeft="@android:drawable/ic_menu_delete"
+        android:focusable="false"
+        android:onClick="deletePersonWithListBtn"
+        android:text="Delete" />
 </RelativeLayout>

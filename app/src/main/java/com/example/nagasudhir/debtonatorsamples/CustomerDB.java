@@ -153,6 +153,20 @@ public class CustomerDB extends SQLiteOpenHelper {
         return mDB.insert(DATABASE_TABLE, null, values);
     }
 
+    /**
+     * Uodates a the customers in the table
+     */
+    public long updateCustomer(ContentValues values, String selection, String[] selectionArgs) {
+        return mDB.update(DATABASE_TABLE, values, selection, selectionArgs);
+    }
+
+    /**
+     * Deletes a the customers in the table
+     */
+    public long deleteCustomer(String selection, String[] selectionArgs) {
+        return mDB.delete(DATABASE_TABLE, selection, selectionArgs);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
         // TODO Auto-generated method stub

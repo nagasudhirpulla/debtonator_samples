@@ -1,10 +1,10 @@
 package com.example.nagasudhir.debtonatorsamples;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -32,11 +32,9 @@ public class PersonViewActivity extends AppCompatActivity {
             uri = Uri.parse(Customer.CONTENT_URI + "/" + id);
         } else {
             uri = Uri.parse(uriString);
+            id = uri.getLastPathSegment();
         }
-
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         // Set the Text Attributes from cursor
         cursor.moveToFirst();
         ((TextView) findViewById(R.id.code)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_ROW_ID)));
@@ -47,14 +45,31 @@ public class PersonViewActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.created_at)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_CREATED_AT)));
         ((TextView) findViewById(R.id.updated_at)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_UPDATED_AT)));
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent customerEdit = new Intent(getBaseContext(), PersonEditActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mode", "update");
+                bundle.putString("rowId", id);
+                customerEdit.putExtras(bundle);
+                startActivity(customerEdit);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void deletePerson(View v) {
+        // starts a new Intent to delete a Person
+        // pass in row Id to create the Content URI for a single row
+        Intent customerDelete = new Intent(getBaseContext(), PersonDeleteActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", "delete");
+        bundle.putString("rowId", id);
+        customerDelete.putExtras(bundle);
+        startActivity(customerDelete);
     }
 }

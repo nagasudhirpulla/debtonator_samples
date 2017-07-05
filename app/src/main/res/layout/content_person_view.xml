@@ -82,5 +82,13 @@
             android:id="@+id/updated_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/deletePersonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_delete"
+            android:onClick="deletePerson"
+            android:text="Delete Person" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

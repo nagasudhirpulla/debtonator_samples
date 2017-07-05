@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PersonEditActivity extends AppCompatActivity implements View.OnClickListener {
-    private String id = null, mode, uriString;
+    private String id = null, mode = "create", uriString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +52,27 @@ public class PersonEditActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(CustomerDB.KEY_USERNAME, ((EditText) findViewById(R.id.username)).getText().toString());
-        initialValues.put(CustomerDB.KEY_PHONE_NUMBER, ((EditText) findViewById(R.id.phone)).getText().toString());
-        initialValues.put(CustomerDB.KEY_EMAIL_ID, ((EditText) findViewById(R.id.email)).getText().toString());
-        initialValues.put(CustomerDB.KEY_METADATA, ((EditText) findViewById(R.id.metadata)).getText().toString());
-        Uri uri = getContentResolver().insert(Customer.CONTENT_URI, initialValues);
-        Toast.makeText(PersonEditActivity.this, "Person Inserted", Toast.LENGTH_SHORT).show();
-        // starts a new Intent to update/delete a Country
+        ContentValues rowValues = new ContentValues();
+        rowValues.put(CustomerDB.KEY_USERNAME, ((EditText) findViewById(R.id.username)).getText().toString());
+        rowValues.put(CustomerDB.KEY_PHONE_NUMBER, ((EditText) findViewById(R.id.phone)).getText().toString());
+        rowValues.put(CustomerDB.KEY_EMAIL_ID, ((EditText) findViewById(R.id.email)).getText().toString());
+        rowValues.put(CustomerDB.KEY_METADATA, ((EditText) findViewById(R.id.metadata)).getText().toString());
+        Uri uri = Uri.parse(Customer.CONTENT_URI + "/" + id);
+        if (mode.equals("create")) {
+            uri = getContentResolver().insert(Customer.CONTENT_URI, rowValues);
+            Toast.makeText(PersonEditActivity.this, "Person Inserted", Toast.LENGTH_SHORT).show();
+        } else if (mode.equals("update")) {
+            int numRowsUpdated = getContentResolver().update(Customer.CONTENT_URI, rowValues, "id=?", new String[]{id});
+            Toast.makeText(PersonEditActivity.this, numRowsUpdated + " rows affected", Toast.LENGTH_SHORT).show();
+        }
+        // starts a new Intent to display the affected person
         // pass in row Id to create the Content URI for a single row
         Intent customerView = new Intent(getBaseContext(), PersonViewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("uri", uri.toString());
+        bundle.putString("rowId", id);
         customerView.putExtras(bundle);
+        customerView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(customerView);
     }
 }

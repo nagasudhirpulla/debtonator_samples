@@ -100,7 +100,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public void editPersonWithListBtn(View v) {
-        ViewGroup listItemLay = (ViewGroup) v.getParent();
         String rowId = ((TextView) ((ViewGroup) v.getParent()).findViewById(R.id.code)).getText().toString();
         // starts a new Intent to update/delete a Country
         // pass in row Id to create the Content URI for a single row
@@ -110,6 +109,18 @@ public class HomeActivity extends AppCompatActivity
         bundle.putString("rowId", rowId);
         customerEdit.putExtras(bundle);
         startActivity(customerEdit);
+    }
+
+    public void deletePersonWithListBtn(View v) {
+        String rowId = ((TextView) ((ViewGroup) v.getParent()).findViewById(R.id.code)).getText().toString();
+        // starts a new Intent to delete a Person
+        // pass in row Id to create the Content URI for a single row
+        Intent customerDelete = new Intent(getBaseContext(), PersonDeleteActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", "delete");
+        bundle.putString("rowId", rowId);
+        customerDelete.putExtras(bundle);
+        startActivity(customerDelete);
     }
 
     @Override

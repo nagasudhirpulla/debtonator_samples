@@ -33,7 +33,16 @@
             android:authorities="com.example.nagasudhir.debtonatorsamples.customer"
             android:exported="false" />
 
-        <activity android:name=".PersonEditActivity"></activity>
+        <activity android:name=".PersonEditActivity" />
+        <activity
+            android:name=".PersonDeleteActivity"
+            android:label="@string/title_activity_person_delete"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nagasudhir.debtonatorsamples.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
