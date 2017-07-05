@@ -19,8 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity
@@ -86,7 +88,7 @@ public class HomeActivity extends AppCompatActivity
                 // pass in row Id to create the Content URI for a single row
                 Intent customerView = new Intent(getBaseContext(), PersonViewActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("mode", "update");
+                bundle.putString("mode", "view");
                 bundle.putString("rowId", rowId);
                 customerView.putExtras(bundle);
                 startActivity(customerView);
@@ -95,6 +97,19 @@ public class HomeActivity extends AppCompatActivity
         /** Creating a loader for populating listview from sqlite database */
         /** This statement, invokes the method onCreatedLoader() */
         getSupportLoaderManager().initLoader(0, null, this);
+    }
+
+    public void editPersonWithListBtn(View v) {
+        ViewGroup listItemLay = (ViewGroup) v.getParent();
+        String rowId = ((TextView) ((ViewGroup) v.getParent()).findViewById(R.id.code)).getText().toString();
+        // starts a new Intent to update/delete a Country
+        // pass in row Id to create the Content URI for a single row
+        Intent customerEdit = new Intent(getBaseContext(), PersonEditActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", "update");
+        bundle.putString("rowId", rowId);
+        customerEdit.putExtras(bundle);
+        startActivity(customerEdit);
     }
 
     @Override

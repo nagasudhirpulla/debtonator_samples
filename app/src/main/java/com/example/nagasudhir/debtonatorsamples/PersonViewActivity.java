@@ -21,7 +21,6 @@ public class PersonViewActivity extends AppCompatActivity {
 
         // get the values passed to the activity from the calling activity
         // determine the mode - add, update or delete
-
         if (this.getIntent().getExtras() != null) {
             Bundle bundle = this.getIntent().getExtras();
             mode = bundle.getString("mode");
@@ -42,7 +41,7 @@ public class PersonViewActivity extends AppCompatActivity {
         cursor.moveToFirst();
         ((TextView) findViewById(R.id.code)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_ROW_ID)));
         ((TextView) findViewById(R.id.username)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_USERNAME)));
-        ((TextView) findViewById(R.id.email)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_USERNAME)));
+        ((TextView) findViewById(R.id.email)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_EMAIL_ID)));
         ((TextView) findViewById(R.id.phone)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_PHONE_NUMBER)));
         ((TextView) findViewById(R.id.metadata)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_METADATA)));
         ((TextView) findViewById(R.id.created_at)).setText(cursor.getString(cursor.getColumnIndexOrThrow(CustomerDB.KEY_CREATED_AT)));

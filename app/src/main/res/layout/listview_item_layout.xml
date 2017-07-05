@@ -45,4 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/created_at" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Person"
+        android:layout_below="@id/updated_at"
+        android:onClick="editPersonWithListBtn"/>
 </RelativeLayout>
